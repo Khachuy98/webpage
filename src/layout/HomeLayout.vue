@@ -1,7 +1,6 @@
 <template>
   <div class="homelayout">
     <top-nav-home/>
-    <cart-product/> 
     <home></home>
 </div>
 </template>
@@ -11,9 +10,9 @@ import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
 import MobileMenu from './MobileMenu.vue'
 import CartModal from '../pages/CartModal.vue'
-import CartProduct from '../pages/CartProduct'
-  import BaseDropdown from '../components/BaseDropdown.vue'
+import BaseDropdown from '../components/BaseDropdown.vue'
 import TopNavHome from './TopNavHome.vue'
+import ViewCart from '../pages/ViewCart.vue'
 export default {
   components: {
     Home,
@@ -21,9 +20,9 @@ export default {
     MobileMenu,
     Contact,
     CartModal,
-    CartProduct,
     BaseDropdown,
     TopNavHome,
+    ViewCart,
   },
   methods: {
         toggleSidebar () {

@@ -1,10 +1,10 @@
 <template>
-  <div class="allproduct">
-    <h2 class="boild">Product Overview</h2>
+  <div class="supplier">
+    <h2 class="boild">Suppliers</h2>
     <div>
       <b-card no-body>
-        <b-tabs card>
-          <b-tab no-body title="All products">
+        <b-tabs card >
+          <b-tab no-body title="Adidas">
             <div class="products">
               <b-row align-h="center">
                 <b-col
@@ -30,8 +30,7 @@
               </b-row>
             </div>
           </b-tab>
-
-          <b-tab no-body title="Sneakers">
+          <b-tab no-body title="Nike">
             <div class="products">
               <b-row align-h="center">
                 <b-col
@@ -57,7 +56,7 @@
               </b-row>
             </div>
           </b-tab>
-          <b-tab no-body title="Oxford">
+          <b-tab no-body title="Converse">
             <div class="products">
               <b-row align-h="center">
                 <b-col
@@ -83,47 +82,38 @@
               </b-row>
             </div>
           </b-tab>
-          <b-tab no-body title="Chelsea">
-            <div class="products">
-              <b-row align-h="center">
-                <b-col
-                  cols="3"
-                  class="place-list"
-                  v-for="product in products"
-                  :key="product.name"
-                >
-                  <div>
-                    <b-badge class="sale" variant="danger">{{
-                      product.sale
-                    }}</b-badge>
-                    <img :src="product.image" />
-                  </div>
-                  <div class="infopr">
-                    {{ product.cost }} <br />
-                    <a href="#" class="showModal" v-b-modal.modalshow
-                      >QuickView</a
-                    >
-                    <p>{{ product.name }}</p>
-                  </div>
-                </b-col>
-              </b-row>
-            </div>
-          </b-tab>
+          <b-tab no-body title="Dr.Martent"> </b-tab>
         </b-tabs>
       </b-card>
     </div>
-    <top-nav-home />
+    <div class="products">
+      <b-row align-h="center">
+        <b-col
+          cols="3"
+          class="place-list"
+          v-for="product in products"
+          :key="product.name"
+        >
+          <div>
+            <b-badge class="sale" variant="danger">{{ product.sale }}</b-badge>
+            <img :src="product.image" />
+          </div>
+          <div class="infopr">
+            {{ product.cost }} <br />
+            <a href="#" class="showModal" v-b-modal.modalshow>QuickView</a>
+            <p>{{ product.name }}</p>
+          </div>
+        </b-col>
+      </b-row>
+    </div>
     <cart-modal />
-    <content-footer-home />
   </div>
 </template>
 
 <script>
-import ContentFooterHome from "../components/Footer/ContentFooterHome.vue";
-import TopNavHome from "../layout/TopNavHome.vue";
 import CartModal from "./CartModal.vue";
 export default {
-  components: { CartModal, TopNavHome, ContentFooterHome },
+  components: { CartModal, },
   data() {
     return {
       cart: [],

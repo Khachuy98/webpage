@@ -8,28 +8,10 @@
           <router-link class="item-menu" to='/shop'>Shop</router-link>
           <router-link class="item-menu" to='/about'>About</router-link>
           <router-link class="item-menu" to='/contact'>Contact</router-link>
+          <router-link class="item-cart" to='/viewcart'>View Cart</router-link>
        </b-navbar-nav>
       <b-collapse id="nav-collapse" is-nav> </b-collapse>
       <div class="wrap-icon">
-        <!-- <b-form-group
-          label-for="filter-input"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          class="mb-0"
-        > -->
-          <!-- <b-input-group size="sm">
-            <b-form-input
-              id="filter-input"
-              v-model="filter"
-              type="search"
-              placeholder="Type to Search"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group> -->
         <b-button class="cart-bt">
           <b-icon icon="cart4" aria-hidden="true" v>Cart</b-icon>
         </b-button>
@@ -50,6 +32,9 @@ export default {};
     }
     .item-menu :hover{
         color: #6c7ae0;
+    }
+    .item-cart{
+      float: right;
     }
     .topnavhome{
         position: fixed;

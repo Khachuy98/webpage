@@ -34,7 +34,10 @@
                     min="1"
                     max="50"
                   ></b-form-spinbutton>
+                  <div class="actions">
                   <b-button class="addtocart" pill variant="info" @click="addItemToCart(product)">Add to cart</b-button>
+                  <b-button class="buynow" pill variant="info" @click="addItemToCart(product)">Buy now</b-button>
+                  </div>
                 </div>
                   <b-card-text>
                   Some quick example text to build on the card title and make up
@@ -121,5 +124,8 @@ export default {
 }
 .addtocart{
     margin: 10px 38px;
+}
+.actions{
+    display: inline-block;
 }
 </style>

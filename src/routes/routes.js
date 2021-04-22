@@ -7,6 +7,7 @@ import Home from 'src/pages/Home.vue'
 import Shop from 'src/pages/Shop.vue'
 import Contact from 'src/pages/Contact.vue'
 import About from 'src/pages/About.vue'
+import ViewCart from 'src/pages/ViewCart.vue'
 // Admin pages
 import Overview from 'src/admin/Overview.vue'
 import UserProfile from 'src/admin/UserProfile.vue'
@@ -50,6 +51,11 @@ const routes = [
         path: '/contact',
         name: 'contact',
         component: Contact
+    },
+    {
+        path: '/viewcart',
+        name: 'viewcart',
+        component: ViewCart
     },
     {
         path: '/admin',
