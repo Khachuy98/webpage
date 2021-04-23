@@ -4,10 +4,6 @@
       <b-row class="justify-content-md-center mt-4">
         <b-col col md="5">
           <h2>Login Shoes Store</h2>
-          <!-- <b-card header="Login - Shoes Store"
-          header-bg-variant="primary"
-          header-text-variant="white">
-          </b-card> -->
           <b-card-text>
             <b-form @submit="onSubmit">
             <b-form-group

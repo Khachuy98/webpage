@@ -3,7 +3,18 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <b-alert variant="success" show>Success Alert</b-alert>
+          <b-nav-form>
+            <b-form-input
+              class="mr-sm-2"
+              placeholder="Search"
+            ></b-form-input>
+            <b-button
+              variant="outline-success"
+              class="my-2 my-sm-search"
+              type="submit"
+              >Search</b-button
+            >
+          </b-nav-form>
           <card
             class="strpied-tabled-with-hover"
             body-classes="table-full-width table-responsive"
@@ -13,90 +24,107 @@
               <p class="card-category">Here is a category</p>
               <div class="text-center">
                 <button
-                  type="submit" class="btn btn-info btn-fill float-right" 
-                  v-b-modal.add-modal>Add new
+                  type="submit"
+                  class="btn btn-info btn-fill float-right"
+                  v-b-modal.add-modal
+                >
+                  Add new
                 </button>
               </div>
-                 <table class="table category">
-                  <thead>
-                    <slot name="columns">
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </slot>
-                  </thead>
-                  <tbody>
-                    <tr v-for="category in category1.data" v-bind:key="category.id">
-                      <td>{{ category.id }}</td>
-                      <td>{{ category.name }}</td>
-                      <td><b-badge variant="success" v-if="category.status == 1">Active</b-badge>
-                      <b-badge variant="danger" v-else>Inactive</b-badge>
-                       </td>
-                      <td>
-                        <b-button
-                          class="btn editcategory"
-                          variant="warning"
-                          v-b-modal.modal-center
-                          @click="edit(category.id)"
-                          >Edit</b-button
-                        >
-                      </td>
+              <table class="table category">
+                <thead>
+                  <slot name="columns">
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Status</th>
+                      <th>Action</th>
                     </tr>
-                  </tbody>
-                  <b-modal
-                    id="add-modal"
-                    ref="modal"
-                    title="Add category"
-                    @show="resetModal"
-                    @hidden="resetModal"
-                    @ok="handleAdd"
-                    cancel-title="Close"
+                  </slot>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="category in category1.data"
+                    v-bind:key="category.id"
                   >
-                    <form @submit.prevent="SubmitAdd">
-                      <b-form-group
-                        label="Name"
-                        label-for="name-input"
-                        invalid-feedback="Name is required"
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name}}</td>
+                    <td>
+                      <b-badge variant="success" v-if="category.status == 1"
+                        >Active</b-badge
                       >
-                        <b-form-input id="name-input" v-model="formadd.name" required>
-                        </b-form-input>
-                      </b-form-group>
-                      <!-- <b-buton variant="success" @click="SubmitAdd()" class="b-submit"
+                      <b-badge variant="danger" v-else>Inactive</b-badge>
+                    </td>
+                    <td>
+                      <b-button
+                        class="btn editcategory"
+                        variant="warning"
+                        v-b-modal.modal-center
+                        @click="edit(category.id)"
+                        >Edit</b-button
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+                <b-modal
+                  id="add-modal"
+                  ref="modal"
+                  title="Add category"
+                  @show="resetModal"
+                  @hidden="resetModal"
+                  @ok="handleAdd"
+                  cancel-title="Close"
+                >
+                  <form @submit.prevent="SubmitAdd">
+                    <b-form-group
+                      label="Name"
+                      label-for="name-input"
+                      invalid-feedback="Name is required"
+                    >
+                      <b-form-input
+                        id="name-input"
+                        v-model="formadd.name"
+                        required
+                      >
+                      </b-form-input>
+                    </b-form-group>
+                    <!-- <b-buton variant="success" @click="SubmitAdd()" class="b-submit"
                         >Add</b-buton
                       > -->
-                    </form>
-                  </b-modal>
+                  </form>
+                </b-modal>
 
-                  <b-modal
-                    id="modal-center"
-                    ref="modal"
-                    title="Edit category"
-                    @show="resetModal"
-                    @hidden="resetModal"
-                    @ok="handleOk"
-                  >
-                    <form @submit.prevent="update">
-                      <b-form-group
-                        label="Name"
-                        label-for="name-input"
-                        invalid-feedback="Name is required"
+                <b-modal
+                  id="modal-center"
+                  ref="modal"
+                  title="Edit category"
+                  @show="resetModal"
+                  @hidden="resetModal"
+                  @ok="handleOk"
+                >
+                  <form @submit.prevent="update">
+                    <b-form-group
+                      label="Name"
+                      label-for="name-input"
+                      invalid-feedback="Name is required"
+                    >
+                      <b-form-input
+                        id="name-input"
+                        v-model="formedit.name"
+                        required
                       >
-                        <b-form-input id="name-input" v-model="formedit.name" required>
-                        </b-form-input>
-                      </b-form-group>
-                      <b-form-group label="Status">
-                        <b-form-select
-                          v-model="formedit.status"
-                          :options="options"
-                        ></b-form-select>
-                      </b-form-group>
-                      <!-- <b-button variant="secondary" @click="update()" class="b-close">Update</b-button> -->
-                    </form>
-                  </b-modal>
-                </table>
+                      </b-form-input>
+                    </b-form-group>
+                    <b-form-group label="Status">
+                      <b-form-select
+                        v-model="formedit.status"
+                        :options="options"
+                      ></b-form-select>
+                    </b-form-group>
+                    <!-- <b-button variant="secondary" @click="update()" class="b-close">Update</b-button> -->
+                  </form>
+                </b-modal>
+              </table>
             </template>
           </card>
         </div>
@@ -108,14 +136,14 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import Swal from "sweetalert2";
+
 Vue.use(VueAxios, axios);
 export default {
   name: "add-category",
   data() {
     return {
-        dismissSecs: 3,
-        dismissCountDown: 0,
-        showDismissibleAlert: false,
+      search:"",
       isEdit: false,
       category1: [],
       formadd: {
@@ -128,7 +156,7 @@ export default {
         status: ""
       },
       options: [
-        { value: 1, text: "Active"},
+        { value: 1, text: "Active" },
         { value: 2, text: "Inactive" }
       ]
     };
@@ -137,6 +165,14 @@ export default {
   mounted() {},
   created() {
     this.getItem();
+  },
+  computed:{
+    category: function(){
+      return this.category1.filter((category)=>{
+        return category.name.match(this.search)
+
+      });
+    }
   },
   methods: {
     // logOut(){
@@ -156,32 +192,16 @@ export default {
         });
     },
 
-    addItem(payload) {
-      const path = `http://127.0.0.1:8000/api/category`;
-      axios
-        .post(path, payload)
-        .then(() => {
-          this.getItem();
-          console.log("Thành công");
-        })
-        .catch(error => {
-          this.getItem();
-          console.log("Lỗi", error);
-        });
-    },
-
     edit(id) {
       this.formedit.id = id;
       // var _this = this;
-      console.log("http://127.0.0.1:8000/api/category/"+id);
+      console.log("http://127.0.0.1:8000/api/category/" + id);
       axios
-        .get('http://127.0.0.1:8000/api/category/'+ id)
-        .then(res=> {
+        .get("http://127.0.0.1:8000/api/category/" + id)
+        .then(res => {
           this.formedit.name = res.data.data.name;
           console.log(res.data.data.name);
           this.formedit.status = res.data.data.status;
-          // console.log(_this.formedit.name ),
-          // console.log(_this.formedit.status )
           console.log("Thành công");
         })
         .catch(function(error) {
@@ -205,37 +225,38 @@ export default {
     handleOk(bvModalEvt) {
       var _this = this;
       var isEdit = _this.formedit;
-      console.log("http://127.0.0.1:8000/api/category/",isEdit);
-      console.log("lay thu id",isEdit.id);
+      console.log("http://127.0.0.1:8000/api/category/", isEdit);
+      console.log("lay thu id", isEdit.id);
       axios
-        .put('http://127.0.0.1:8000/api/category/'+isEdit.id,isEdit)
-        .then((res) => {
+        .put("http://127.0.0.1:8000/api/category/" + isEdit.id, isEdit)
+        .then(res => {
           console.log(res.data.data);
           this.getItem();
-          this.dismissCountDown = this.dismissSecs
+          Swal.fire("Đã sửa!", "Sửa category thành công.", "success");
         })
         .catch(function(error) {
           console.log("lỗi:", error);
-           this.getItem();
+          this.getItem();
         });
       // Prevent modal from closing
       bvModalEvt.preventDefault();
-            this.$nextTick(() => {
+      this.$nextTick(() => {
         this.$bvModal.hide("modal-center");
       });
     },
- handleAdd(bvModalEvt) {
+    handleAdd(bvModalEvt) {
       var isAdd = this.formadd;
       axios
         .post(`http://127.0.0.1:8000/api/category`, isAdd)
         .then(res => {
           this.getItem();
           console.log("Thành công");
-          this.dismissCountDown = this.dismissSecs;
+          Swal.fire("Đã thêm!", "Thêm category thành công.", "success");
         })
         .catch(error => {
           this.getItem();
           console.log("Lỗi", error);
+          Swal.fire("Failed!", "Lỗi không thêm được", "warning");
         });
       bvModalEvt.preventDefault();
       this.$nextTick(() => {
@@ -245,7 +266,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .editcategory {
   border: none;
   padding: 4px 12px;

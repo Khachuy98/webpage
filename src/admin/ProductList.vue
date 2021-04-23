@@ -3,6 +3,19 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
+          <b-nav-form>
+            <b-form-input
+              class="mr-sm-2"
+              
+              placeholder="Search"
+            ></b-form-input>
+            <b-button
+              variant="outline-success"
+              class="my-2 my-sm-search"
+              type="submit"
+              >Search</b-button
+            >
+          </b-nav-form>
           <card
             class="strpied-tabled-with-hover"
             body-classes="table-full-width table-responsive"
@@ -39,7 +52,15 @@
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.amount }}</td>
-                    <td>{{ product.img }}</td>
+                    <td>
+                      <img
+                        v-bind:src="
+                          'http://127.0.0.1:8000/uploads/product/' + product.img
+                        "
+                        width="100"
+                        alt="product"
+                      />
+                    </td>
                     <td>{{ product.export_price }}</td>
                     <td>{{ product.status }}</td>
                     <td>{{ product.supplier_id }}</td>
@@ -114,7 +135,9 @@
                           invalid-feedback="Name is required"
                         >
                           <b-form-input
+                            type="number"
                             id="name-input"
+                            min="0"
                             v-model="formadd.import_price"
                             required
                           >
@@ -128,6 +151,9 @@
                           <b-form-input
                             id="name-input"
                             v-model="formadd.sale"
+                            type="number"
+                            min="0"
+                            max="100"
                             required
                           >
                           </b-form-input>
@@ -139,8 +165,11 @@
                         >
                           <b-form-input
                             id="name-input"
-                            v-model="formadd.export_price"
+                            type="number"
+                            min="0"
+                            v-model="result"
                             required
+                            disabled
                           >
                           </b-form-input>
                         </b-form-group>
@@ -158,54 +187,51 @@
                           v-for="(apartment, index) in apartments"
                           :key="`apartment - ${index}`"
                         >
-                          <b-row>
-                            <b-col lg="4">
-                              <b-form-group label="Color">
-                                <b-form-select
-                                  v-model="formadd.color_id"
-                                  :options="color"
-                                  :name="`apartments[${index}][color_id]`"
-                                ></b-form-select>
-                              </b-form-group>
-                            </b-col>
-                            <b-col lg="4">
-                              <b-form-group label="Size">
-                                <b-form-select
-                                  v-model="formadd.size_id1"
-                                  :options="size"
-                                  :name="`apartments[${index}][size_id]`"
-                                ></b-form-select>
-                              </b-form-group>
-                            </b-col>
-                            <b-col lg="4">
-                              <b-form-group
-                                label="Quantity"
-                                label-for="name-input"
-                                invalid-feedback="Name is required"
-                               
-                              >
-                                <b-form-input
-                                  id="name-input"
-                                  type="number"
-                           
-                                   :name="`apartments[${index}][amount]`"
-                                  required
+                            <b-row>
+                              <b-col lg="4">
+                                <b-form-group label="Color">
+                                  <b-form-select
+                                    v-model="formadd.color_id"
+                                    :options="color"
+                                    :name="`apartments[${index}][color_id]`"
+                                  ></b-form-select>
+                                </b-form-group>
+                              </b-col>
+                              <b-col lg="4">
+                                <b-form-group label="Size">
+                                  <b-form-select
+                                    v-model="formadd.size_id1"
+                                    :options="size"
+                                    :name="`apartments[${index}][size_id]`"
+                                  ></b-form-select>
+                                </b-form-group>
+                              </b-col>
+                              <b-col lg="4" class="amountc">
+                                <b-form-group
+                                  label="Quantity"
+                                  label-for="name-input"
+                                  invalid-feedback="Name is required"
                                 >
-                                </b-form-input>
-                              </b-form-group>
-                            </b-col>
-                          </b-row>
+                                  <b-form-input
+                                    size="sm"
+                                    id="name-input"
+                                    type="number"
+                                    :name="`apartments[${index}][amount]`"
+                                    required
+                                  >
+                                  </b-form-input>
+                                </b-form-group>
+                              </b-col>
+                            </b-row>
                         </div>
                         <b-button variant="success" @click="addNewPartment()"
-                      >Add</b-button
-                    >
+                          >Add</b-button
+                        >
+                        <button @click="handleOk1()">Submit</button>
                       </b-col>
                     </b-row>
-                    
                   </form>
-                  
                 </b-modal>
-
               </table>
             </template>
           </card>
@@ -233,36 +259,36 @@ export default {
         { value: 1, text: "1" },
         { value: 0, text: "2" },
       ],
-      Quantity:"11",
+      Quantity: "11",
       products: [],
       formadd: {
-          name: "",
+        name: "",
         amount: "",
         img: "",
         note: "",
-        price: "",
+        import_price: "",
+
         sale: "",
         status: "",
         supplier_id: "",
-        color_id:"",
-        size_id:"",
-        Quantity:""
-      
-
+        color_id: "",
+        size_id: "",
+        Quantity: "",
       },
+      export_price: "",
       formedit: {
         name: "",
         amount: "",
         img: "",
         note: "",
-        price: "",
+        import_price: "",
+        export_price: "",
         sale: "",
         status: "",
         supplier_id: "",
-        color_id:"",
-        size_id:"",
-        Quantity:""
-
+        color_id: "",
+        size_id: "",
+        Quantity: "",
       },
 
       apartments: [
@@ -285,15 +311,17 @@ export default {
     columns: Array,
     data: Array,
   },
+  computed: {
+    result: function () {
+      return this.formadd.import_price * ((100 - this.formadd.sale) / 100);
+    },
+  },
   mounted() {},
   created() {
     this.getItem();
   },
   methods: {
-
-    Count(){
-      
-    },
+    Count() {},
     addNewPartment() {
       this.apartments.push({
         color_id: "",
@@ -336,6 +364,7 @@ export default {
           console.log(error);
         });
     },
+
     // edit(id) {
     //   this.isEdit = id;
     //   axios
@@ -350,72 +379,32 @@ export default {
 
     //     });
     // },
-    update() {
-      axios
-        .put(
-          `http://127.0.0.1:8000/material/detail_material/` + this.isEdit,
-          this.editform,
-          {}
-        )
-        .then((res) => {
-          console.log(res.data);
-          this.getMeterial();
-          this.$refs.editSupModal.hide();
-          this.$toaster.success("Sửa nguyên liệu thành");
-        })
-        .catch((err) => {
-          this.$refs.editSupModal.hide();
-          this.$toaster.error("Sửa nguyên liệu thất bại");
-        });
-    },
-    handleOk() {
+    handleOk1() {
       // event.preventDefault();
 
+      console.log(this.formadd.export_price);
       const payload = {
         name: this.formadd.name,
-        status: this.formadd.status,
+        img: this.formadd.img,
 
-        date: this.formadd.date,
+        note: this.formadd.note,
+        import_price: this.formadd.import_price,
+        export_price: parseInt(this.formadd.import_price + this.formadd.sale),
+        sale: this.formadd.sale,
+        supplier_id: this.formadd.supplier_id,
+        color_id: this.formadd.color_id,
+        size_id: this.formadd.size_id,
+        // status: this.formadd.status ,
+
+        // date: this.formadd.date
       };
       this.addItem(payload);
-    },
-    hasValue(item, column) {
-      return item[column.toLowerCase()] !== "undefined";
-    },
-    itemValue(item, column) {
-      return item[column.toLowerCase()];
-    },
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
-    },
-    resetModal() {
-      this.name = "";
-      this.nameState = null;
-    },
-    handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Push the name to submitted names
-      this.submittedNames.push(this.name);
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("add-product");
-      });
+      console.log(payload);
     },
   },
 };
 </script>
-<style>
+<style scoped>
 .modal.show .modal-dialog {
   transform: translate(0, 50%);
   padding: 2px 0px;
@@ -426,6 +415,9 @@ export default {
   margin-left: 1px;
   background-color: #0e6de9;
 }
+.amountc{
+  margin-top: -5px
+}
 .editcategory:hover {
   color: #212529;
   background-color: #0e6de9;
@@ -433,6 +425,9 @@ export default {
 .editcategory:active {
   color: #212529;
   background-color: #189ce9 !important;
+}
+.ipamount{
+
 }
 .fixed {
   padding: 1px 1px;

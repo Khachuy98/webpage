@@ -14,8 +14,12 @@
                 </b-card>
               </b-col>
               <b-col lg="6">
-                <h4>Chelsea Boot</h4>
-                <b-badge pill variant="light">$0.09</b-badge>
+                <h3>Chelsea Boot</h3>
+                <div class="price">
+                  <b-badge  pill variant="light">$40.09</b-badge> <br/>
+                  <b-badge pill variant="light">$20.05</b-badge>
+                </div>
+
                 <div class="choose">
                   <b-form-select
                     class="size"
@@ -36,7 +40,7 @@
                   ></b-form-spinbutton>
                   <div class="actions">
                   <b-button class="addtocart" pill variant="info" @click="addItemToCart(product)">Add to cart</b-button>
-                  <b-button class="buynow" pill variant="info" @click="addItemToCart(product)">Buy now</b-button>
+                  <!-- <b-button class="buynow" pill variant="info" @click="addItemToCart(product)">Buy now</b-button> -->
                   </div>
                 </div>
                   <b-card-text>
@@ -126,6 +130,9 @@ export default {
     margin: 10px 38px;
 }
 .actions{
-    display: inline-block;
+    display: block;
+}
+.price{
+  font-size: 24px;
 }
 </style>

@@ -15,22 +15,17 @@ import ProductList from '../admin/ProductList.vue'
 import Category from 'src/admin/Category.vue'
 import Suppliers from 'src/admin/Suppliers.vue'
 import Users from 'src/admin/Users.vue'
+import Bill from 'src/admin/Bill.vue'
 import Notifications from 'src/admin/Notifications.vue'
-// import Login from 'src/admin/Login.vue'
+import Login from 'src/admin/Login.vue'
 
 const routes = [
-    // {
-    // path: '/',
-    // component: Login,
-    // // redirect: '/admin',
-    // },
+
     {
         path: '/',
         component: HomeLayout,
         redirect: '/home',
-        meta: {
-            isAuthen: true,
-        },
+ 
         children: [{
             path: 'home',
             name: 'home',
@@ -57,8 +52,10 @@ const routes = [
         name: 'viewcart',
         component: ViewCart
     },
-    {
+    {    
+        // path: '/login',
         path: '/admin',
+        // component: Login,
         component: DashboardLayout,
         redirect: '/admin/overview',
         children: [{
@@ -92,6 +89,11 @@ const routes = [
                 component: Users
             },
             {
+                path: 'bill',
+                name: 'bill',
+                component: Bill
+            },
+            {
                 path: 'notifications',
                 name: 'Notifications',
                 component: Notifications
@@ -101,7 +103,18 @@ const routes = [
     { path: '*', component: NotFound }
 
 ]
-
+// router.beforeEach((to, from, next) => {
+//     // chuyển đến trang login nếu chưa được login
+//     const publicPages = ['/login'];
+//     const authRequired = !publicPages.includes(to.path);
+//     const loggedIn = localStorage.getItem('users');
+  
+//     if (authRequired && !loggedIn) {
+//       return next('/login');
+//     }
+  
+//     next();
+//   })
 /**
  * Asynchronously load view (Webpack Lazy loading compatible)
  * The specified component must be inside the Views folder

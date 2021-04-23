@@ -26,6 +26,10 @@
         <i class="fa fa-users"></i>
         <p>Users</p>
       </sidebar-link>
+      <sidebar-link to="/admin/bill">
+        <i class="nc-icon nc-notes"></i>
+        <p>Bill</p>
+      </sidebar-link>
     </side-bar>
     <div class="main-panel">
       <top-navbar></top-navbar>
